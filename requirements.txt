@@ -1,3 +1,6 @@
 docling
 easyocr
 langchain-text-splitters
+qdrant-client 
+sentence-transformers
+fastembed
