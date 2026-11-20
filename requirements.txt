@@ -1,2 +1,3 @@
 docling
 easyocr
+langchain-text-splitters
