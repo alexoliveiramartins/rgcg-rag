@@ -1,17 +1,21 @@
 from transformers import AutoTokenizer
 
-from docling.document_converter import DocumentConverter
 from langchain_text_splitters import RecursiveCharacterTextSplitter, MarkdownHeaderTextSplitter
-
+from docling.document_converter import DocumentConverter, PdfFormatOption
+from docling.datamodel.pipeline_options import PdfPipelineOptions
+from docling.datamodel.base_models import InputFormat
 
 source = "docs/rgcg.pdf"
 MAX_TOKENS = 384
 EMBED_MODEL_ID = "intfloat/multilingual-e5-small"
 tokenizer=AutoTokenizer.from_pretrained(EMBED_MODEL_ID)
 
+opts = PdfPipelineOptions(do_formula_enrichment=True)
 
 def convert(src: str) -> str:
-    texto = DocumentConverter().convert(src).document.export_to_markdown()
+    texto = DocumentConverter(
+        format_options={InputFormat.PDF: PdfFormatOption(pipeline_options=opts)}
+    ).convert(src).document.export_to_markdown()
 
     # O Docling identifica os titulos certo, porém não preserva a hierarquia
     # esse trecho retira os identificadores md de headings e coloca manualmente
